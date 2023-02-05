@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="HandheldFriendly" content="True" />
+	<title>外為OPトレード分析</title>
+	<link rel="icon" href="favicon.ico" type="image/png">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="page_all">
+        <header>
+            <div class="header_area">
+                <h1 class="header_title">外為OPトレード分析</h1>
+                <a href="https://github.com/oxy-develop-ment/bo_result_analysis" class="whats_this">★このサイトについて</a>
+            </div>
+        </header>
+        <main class="main_contents">
+            <div class="input_area">
+                <label class="input_label">
+                    <input id="input_csv" type="file">ファイルを選択してください
+                </label>
+            </div>
+            <div class="message_area">
+                <span id="file_message">ファイルを選択してください</span>
+            </div>
+            <div class="summary_area" id="summary_area" style="display: none;">
+                <div class="radio_area">
+                    <input type="radio" name="fund" value="all" onchange="radioChange(value)" checked> All
+                    <input type="radio" name="fund" value="USD/JPY" onchange="radioChange(value)"> USD/JPY
+                    <input type="radio" name="fund" value="EUR/JPY" onchange="radioChange(value)"> EUR/JPY
+                    <input type="radio" name="fund" value="GBP/JPY" onchange="radioChange(value)"> GBP/JPY
+                    <input type="radio" name="fund" value="AUD/JPY" onchange="radioChange(value)"> AUD/JPY
+                    <input type="radio" name="fund" value="EUR/USD" onchange="radioChange(value)"> EUR/USD
+                </div>
+                <div class="chart_area">
+                    <div class="chart_container">
+                        <canvas id="chart-1"></canvas>
+                    </div>
+                    <div class="chart_container">
+                        <canvas id="chart-2"></canvas>
+                    </div>
+                    <div class="chart_container">
+                        <canvas id="chart-3"></canvas>
+                    </div>
+                    <div class="chart_container">
+                        <canvas id="chart-4"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer style="margin-top: 10px;">
+            <p style="text-align: center; margin: 0;">© 外為OPトレード分析</p>
+            <p style="text-align: center; margin: 0;">created by @oxy_development</p>
+        </footer>
+    </div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
