@@ -7,12 +7,13 @@ const CHART1_LABEL_VAL = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
 const CHART2_LABEL = ["2~15", "16~30", "31~45", "46~60", "61~75", "76~90", "91~105", "106~120", "121~150", "151~180"];
 const CHART2_LABEL_VAL = [15, 30, 45, 60, 75, 90, 105, 120, 150, 180];
 const CHART3_LABEL = ["11", "13", "15", "17", "19", "21", "23", "01", "03", "05"];
-const CHART3_LABEL_VAL = [11, 13, 15, 17, 21, 23, 01, 03, 05];
-
+const CHART3_LABEL_VAL = [11, 13, 15, 17, 19, 21, 23, 1, 3, 5];
+const CHART5_LABEL = ["USD/JPY", "EUR/JPY", "GBP/JPY", "AUD/JPY", "EUR/USD"];
 
 const CSV_HEAD_FUND = "通貨ペア";
 const CSV_HEAD_DUE_TIME = "満期日時";
 const CSV_HEAD_TRADE_TYPE = "取引種類";
+const CSV_HEAD_CONTRACT_NUM = "約定枚数"
 const CSV_HEAD_CONTRACT_PRICE = "約定価格";
 const CSV_HEAD_FIXED_PROFIT = "確定損益";
 const CSV_HEAD_ORDER_KEY = "注文No";
@@ -34,6 +35,7 @@ const TITLE_CONTRACT_PRICE = "オプション価格帯による損益合計";
 const TITLE_CONTRACT_TIME = "残り時間帯による損益合計";
 const TITLE_DUE_TIME = "満期時間による損益合計";
 const TITLE_RELATION_TIME_PRICE = "残り時間と約定価格による損益合計"
+const TITLE_FUND = "通貨ごとによる損益合計"
 
 const CIRCLE_RADIUS_MIN = 2;
 const CIRCLE_RADIUS_MAX = 10;

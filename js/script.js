@@ -7,6 +7,7 @@ let chart1 = null;
 let chart2 = null;
 let chart3 = null;
 let chart4 = null;
+let chart5 = null;
 
 fileInput.onchange = () => {
     fileMessage.innerHTML = MESSAGE_READING_FILE
@@ -45,18 +46,24 @@ function drawChart(fundStr) {
     safeDestroyChart(chart2);
     safeDestroyChart(chart3);
     safeDestroyChart(chart4);
+    safeDestroyChart(chart5);
 
     // create chart data
     let chartConfig1 = createDataset1(items);
     let chartConfig2 = createDataset2(items);
     let chartConfig3 = createDataset3(items);
     let chartConfig4 = createDataset4(items);
+    let chartConfig5 = createDataset5(items);
+
+    // create summary data
+    createSummary(items);
 
     // draw chart
     chart1 = new Chart(document.getElementById('chart-1'), chartConfig1);
     chart2 = new Chart(document.getElementById('chart-2'), chartConfig2);
     chart3 = new Chart(document.getElementById('chart-3'), chartConfig3);
     chart4 = new Chart(document.getElementById('chart-4'), chartConfig4);
+    chart5 = new Chart(document.getElementById('chart-5'), chartConfig5);
 }
 
 function onError() {
@@ -67,6 +74,7 @@ function onError() {
     safeDestroyChart(chart2);
     safeDestroyChart(chart3);
     safeDestroyChart(chart4);
+    safeDestroyChart(chart5);
 }
 
 function safeDestroyChart(taregetChart) {
@@ -467,6 +475,105 @@ function createDataset4(items) {
         }
     };
     return chartConfig;
+}
+
+function createDataset5(items) {
+    let valArr = new Array(CHART5_LABEL.length).fill(0);
+    for (const item of items) {
+        if (item[CSV_HEAD_TRADE_TYPE] != TRADE_TYPE_BUY) {
+            continue;
+        }
+        for (let i = 0; i < CHART5_LABEL.length; ++i) {
+            if (item[CSV_HEAD_FUND] != CHART5_LABEL[i]) {
+                continue;
+            }
+            let profit = fetchProfit(item[CSV_HEAD_ORDER_KEY], items);
+            valArr[i] += profit;
+            break;
+        }
+    }
+
+    // create chart data
+    let chartConfig = {
+        'type': 'bar',
+        'data': {
+            'labels': CHART5_LABEL,
+            'datasets': [
+                {
+                    'label': '損益合計',
+                    'data': valArr,
+                    'borderWidth': 1,
+                    'borderColor': 'rgb(34, 139, 34)',
+                    'backgroundColor': 'rgba(204, 255, 204, 0.4)'
+                }
+            ]
+        },
+        'options': {
+            'responsive': true,
+            'maintainAspectRatio': false,
+            'scales': {
+                'y': { 
+                    'beginAtZero': true,
+                    'title': {
+                        'display': true,
+                        'text': '損益合計[円]' 
+                    }
+                },
+                'x': { 
+                    'title': {
+                        'display': true,
+                        'text': '通貨' 
+                    } 
+                }
+            },
+            'plugins': {
+                'title': {
+                    'display': true,
+                    'text': TITLE_FUND
+                }
+            }
+        }
+    };
+    return chartConfig;
+}
+
+function createSummary(items) {
+    let buyNum = 0;
+    let sellNum = 0;
+    let hitNum = 0;
+    let outNum = 0;
+    let profitAll = 0;
+    let profitUnitAll = 0.0;
+
+    for (const item of items) {
+        switch (item[CSV_HEAD_TRADE_TYPE]) {
+            case TRADE_TYPE_BUY:
+                buyNum++;
+                break;
+            case TRADE_TYPE_SELL:
+                sellNum++;
+                continue;
+            case TRADE_TYPE_DUE_HIT:
+                hitNum++;
+                continue;
+            case TRADE_TYPE_DUE_OUT:
+                outNum++;
+                continue;
+            default:
+                continue;
+        }
+        let profit = fetchProfit(item[CSV_HEAD_ORDER_KEY], items);
+        profitAll += profit;
+        profitUnitAll += profit / Number(item[CSV_HEAD_CONTRACT_NUM]);
+    }
+
+    document.getElementById("table_profit").textContent = profitAll;
+    document.getElementById("table_buy_count").textContent = buyNum;
+    document.getElementById("table_sell_count").textContent = sellNum;
+    document.getElementById("table_full_hit").textContent = hitNum;
+    document.getElementById("table_full_out").textContent = outNum;
+    document.getElementById("table_profit_unit").textContent = profitUnitAll;
+    document.getElementById("table_profit_expect").textContent = Math.round(profitUnitAll / buyNum);
 }
 
 function enableChartArea() {
